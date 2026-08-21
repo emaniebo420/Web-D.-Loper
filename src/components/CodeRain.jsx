@@ -15,7 +15,7 @@ export default function CodeRain() {
     let lastWidth = 0
     let lastHeight = 0
 
-        function resize() {
+    function resize() {
       const newWidth = window.innerWidth
       const newHeight = window.innerHeight
 
@@ -34,7 +34,7 @@ export default function CodeRain() {
         columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
         lastWidth = newWidth
       }
-
+    }
 
       canvas.width = newWidth
       canvas.height = newHeight
