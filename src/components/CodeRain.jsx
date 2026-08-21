@@ -24,27 +24,39 @@ export default function CodeRain() {
     resize()
     window.addEventListener('resize', resize)
 
-    let columns = []
+        let columns = []
     const fontSize = 15
     let lastWidth = 0
+    let lastHeight = 0
 
     function resize() {
       const newWidth = window.innerWidth
       const newHeight = window.innerHeight
 
+      const widthChanged = newWidth !== lastWidth
+      
+      const heightChangedSignificantly = Math.abs(newHeight - lastHeight) > 150
+
+      if (!widthChanged && !heightChangedSignificantly && lastWidth !== 0) {
+        return 
+      }
+
       canvas.width = newWidth
       canvas.height = newHeight
 
-      if (newWidth !== lastWidth) {
+      if (widthChanged) {
         const columnCount = Math.floor(newWidth / fontSize)
         const oldColumns = columns
         columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
-        lastWidth = newWidth
       }
+
+      lastWidth = newWidth
+      lastHeight = newHeight
     }
 
     resize()
     window.addEventListener('resize', resize)
+
 
     return () => {
       cancelAnimationFrame(animationId)
