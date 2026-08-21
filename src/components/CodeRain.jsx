@@ -45,4 +45,48 @@ export default function CodeRain() {
     window.addEventListener('resize', resize)
 
     let lastTime = 0
-    const frameDelay = 90 // ms between steps — slow, calm dr
+    const frameDelay = 90 // ms between steps — slow, calm drift
+
+    function draw(time) {
+      animationId = requestAnimationFrame(draw)
+      if (time - lastTime < frameDelay) return
+      lastTime = time
+
+      // fade previous frame instead of clearing, for trailing effect
+      ctx.fillStyle = 'rgba(11, 13, 14, 0.15)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      ctx.fillStyle = 'rgba(125, 211, 176, 0.35)' // accent green, low alpha
+      ctx.font = `${fontSize}px monospace`
+
+      for (let i = 0; i < columns.length; i++) {
+        const char = CHARS[Math.floor(Math.random() * CHARS.length)]
+        const x = i * fontSize
+        const y = columns[i] * fontSize
+
+        ctx.fillText(char, x, y)
+
+        if (y > canvas.height && Math.random() > 0.98) {
+          columns[i] = 0
+        } else {
+          columns[i] += 1
+        }
+      }
+    }
+
+    animationId = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="fixed inset-0 z-0 opacity-[0.22] pointer-events-none"
+    />
+  )
+}
