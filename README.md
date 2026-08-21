@@ -1,4 +1,4 @@
-# Eussef Maniebo — Portfolio
+# Web D. Loper
 
 React + Vite + Tailwind CSS. Clean single-page portfolio, all content
 driven from `src/data.jsx` so you can update projects/skills without touching
