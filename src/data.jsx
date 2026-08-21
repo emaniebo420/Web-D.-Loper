@@ -9,7 +9,7 @@ export const profile = {
   headline: (
     <>I build web products, then learn how to <span className="text-accent">break</span> them.</>
   ),
-  bio: `BSIT graduate, Network & Cybersecurity, Mapúa. I ship production React/Next.js applications through my freelance practice, Web D. Loper, and study offensive security in parallel — because building and attacking the same systems makes me better at both.`,
+  bio: `BSIT graduate, Network & Cybersecurity, MMDC. I ship production React/Next.js applications through my freelance practice, Web D. Loper, and study offensive security in parallel — because building and attacking the same systems makes me better at both.`,
 }
 
 export const projects = [
