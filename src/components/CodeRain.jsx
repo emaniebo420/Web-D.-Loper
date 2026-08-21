@@ -6,25 +6,11 @@ export default function CodeRain() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let animationId
+
     let columns = []
-    const fontSize = 15
-
-    function resize() {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      const columnCount = Math.floor(canvas.width / fontSize)
-      columns = new Array(columnCount).fill(0).map(() => Math.random() * -100)
-    }
-
-    resize()
-    window.addEventListener('resize', resize)
-
-        let columns = []
     const fontSize = 15
     let lastWidth = 0
     let lastHeight = 0
@@ -34,11 +20,12 @@ export default function CodeRain() {
       const newHeight = window.innerHeight
 
       const widthChanged = newWidth !== lastWidth
-      
+      // Ignore small height-only changes — these are mobile address bar
+      // show/hide events during scroll, not real resizes.
       const heightChangedSignificantly = Math.abs(newHeight - lastHeight) > 150
 
       if (!widthChanged && !heightChangedSignificantly && lastWidth !== 0) {
-        return 
+        return // no real resize — skip, don't touch the canvas at all
       }
 
       canvas.width = newWidth
@@ -57,18 +44,5 @@ export default function CodeRain() {
     resize()
     window.addEventListener('resize', resize)
 
-
-    return () => {
-      cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="fixed inset-0 z-0 opacity-30 pointer-events-none"
-    />
-  )
-}
+    let lastTime = 0
+    const frameDelay = 90 // ms between steps — slow, calm dr
