@@ -15,18 +15,26 @@ export default function CodeRain() {
     let lastWidth = 0
     let lastHeight = 0
 
-    function resize() {
+        function resize() {
       const newWidth = window.innerWidth
       const newHeight = window.innerHeight
 
-      const widthChanged = newWidth !== lastWidth
-      // Ignore small height-only changes — these are mobile address bar
-      // show/hide events during scroll, not real resizes.
-      const heightChangedSignificantly = Math.abs(newHeight - lastHeight) > 150
+      // Always match the canvas to the current viewport size — this prevents
+      // the rain from getting stuck at an old, shorter height and cutting off
+      // partway down the page.
+      canvas.width = newWidth
+      canvas.height = newHeight
 
-      if (!widthChanged && !heightChangedSignificantly && lastWidth !== 0) {
-        return // no real resize — skip, don't touch the canvas at all
+      // Only rebuild the falling columns when width actually changes — mobile
+      // address-bar show/hide only changes height, and rebuilding columns on
+      // that would restart the animation from the top.
+      if (newWidth !== lastWidth) {
+        const columnCount = Math.floor(newWidth / fontSize)
+        const oldColumns = columns
+        columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
+        lastWidth = newWidth
       }
+
 
       canvas.width = newWidth
       canvas.height = newHeight
