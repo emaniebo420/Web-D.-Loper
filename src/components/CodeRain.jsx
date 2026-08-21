@@ -52,8 +52,7 @@ export default function CodeRain() {
       if (time - lastTime < frameDelay) return
       lastTime = time
 
-      // fade previous frame instead of clearing, for trailing effect
-      ctx.fillStyle = 'rgba(11, 13, 14, 0.15)'
+      ctx.fillStyle = 'rgba(100, 220, 160, 0.35)' 
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       ctx.fillStyle = 'rgba(125, 211, 176, 0.35)' // accent green, low alpha
