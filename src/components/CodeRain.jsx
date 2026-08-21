@@ -13,7 +13,6 @@ export default function CodeRain() {
     let columns = []
     const fontSize = 15
     let lastWidth = 0
-    let lastHeight = 0
 
     function resize() {
       const newWidth = window.innerWidth
@@ -34,19 +33,6 @@ export default function CodeRain() {
         columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
         lastWidth = newWidth
       }
-    }
-
-      canvas.width = newWidth
-      canvas.height = newHeight
-
-      if (widthChanged) {
-        const columnCount = Math.floor(newWidth / fontSize)
-        const oldColumns = columns
-        columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
-      }
-
-      lastWidth = newWidth
-      lastHeight = newHeight
     }
 
     resize()
