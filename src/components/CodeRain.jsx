@@ -24,37 +24,27 @@ export default function CodeRain() {
     resize()
     window.addEventListener('resize', resize)
 
-    let lastTime = 0
-    const frameDelay = 90 // ms between steps — slow, calm drift
+    let columns = []
+    const fontSize = 15
+    let lastWidth = 0
 
-    function draw(time) {
-      animationId = requestAnimationFrame(draw)
-      if (time - lastTime < frameDelay) return
-      lastTime = time
+    function resize() {
+      const newWidth = window.innerWidth
+      const newHeight = window.innerHeight
 
-      // fade previous frame instead of clearing, for trailing effect
-      ctx.fillStyle = 'rgba(11, 15, 20, 0.15)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      canvas.width = newWidth
+      canvas.height = newHeight
 
-      ctx.fillStyle = 'rgba(108, 116, 240, 0.28)' // accent indigo, low alpha
-      ctx.font = `${fontSize}px monospace`
-
-      for (let i = 0; i < columns.length; i++) {
-        const char = CHARS[Math.floor(Math.random() * CHARS.length)]
-        const x = i * fontSize
-        const y = columns[i] * fontSize
-
-        ctx.fillText(char, x, y)
-
-        if (y > canvas.height && Math.random() > 0.98) {
-          columns[i] = 0
-        } else {
-          columns[i] += 1
-        }
+      if (newWidth !== lastWidth) {
+        const columnCount = Math.floor(newWidth / fontSize)
+        const oldColumns = columns
+        columns = new Array(columnCount).fill(0).map((_, i) => oldColumns[i] ?? Math.random() * -100)
+        lastWidth = newWidth
       }
     }
 
-    animationId = requestAnimationFrame(draw)
+    resize()
+    window.addEventListener('resize', resize)
 
     return () => {
       cancelAnimationFrame(animationId)
