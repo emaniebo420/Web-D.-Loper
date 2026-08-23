@@ -89,7 +89,7 @@ export default function CodeRain() {
       return maskData[idx + 3] > 60 // alpha threshold
     }
 
-    function draw(time) {
+        function draw(time) {
       animationId = requestAnimationFrame(draw)
       if (time - lastTime < frameDelay) return
       lastTime = time
@@ -103,14 +103,19 @@ export default function CodeRain() {
       for (let i = 0; i < columns.length; i++) {
         const x = i * fontSize
         const y = columns[i] * fontSize
+        const char = CHARS[Math.floor(Math.random() * CHARS.length)]
 
-        // skip drawing inside the skull silhouette so it reads as a dark
-        // shape carved out of the green noise
-        if (!isInsideSkull(x, y)) {
-          const char = CHARS[Math.floor(Math.random() * CHARS.length)]
-          ctx.fillStyle = 'rgba(100, 220, 160, 0.35)'
-          ctx.fillText(char, x, y)
+        if (isInsideSkull(x, y)) {
+          // brighter, denser, glowing — this is what makes the skull visible
+          ctx.shadowColor = 'rgba(120, 255, 170, 0.9)'
+          ctx.shadowBlur = 6
+          ctx.fillStyle = 'rgba(140, 255, 190, 0.9)'
+        } else {
+          ctx.shadowBlur = 0
+          ctx.fillStyle = 'rgba(100, 220, 160, 0.25)'
         }
+
+        ctx.fillText(char, x, y)
 
         if (y > canvas.height && Math.random() > 0.98) {
           columns[i] = 0
