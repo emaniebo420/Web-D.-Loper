@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react'
 
 const CHARS = '01アイウエオカキクケコサシスセソ{}[]<>/=+-;'
 
-// Simple skull-and-crossbones silhouette as an SVG data URI — renders
-// identically on every device, unlike relying on emoji font glyphs.
 const SKULL_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <g fill="white">
@@ -25,14 +23,11 @@ export default function SkullOverlay() {
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
-
     const img = new Image()
     const svgBlob = new Blob([SKULL_SVG], { type: 'image/svg+xml' })
     const url = URL.createObjectURL(svgBlob)
-
     let interval
-
-    img.onload = () => {
+      img.onload = () => {
       function draw() {
         const size = Math.min(window.innerWidth, window.innerHeight) * 0.5
         canvas.width = size
@@ -40,7 +35,6 @@ export default function SkullOverlay() {
         canvas.style.width = `${size}px`
         canvas.style.height = `${size}px`
 
-        // draw the skull silhouette offscreen to sample its alpha
         const mask = document.createElement('canvas')
         mask.width = size
         mask.height = size
@@ -53,4 +47,39 @@ export default function SkullOverlay() {
 
         const step = size * 0.022
         for (let y = 0; y < size; y += step) {
-          for (let x = 0; x
+          for (let x = 0; x < size; x += step) {
+            const px = Math.floor(x)
+            const py = Math.floor(y)
+            const idx = (py * size + px) * 4
+            const alpha = imageData.data[idx + 3]
+            if (alpha > 100) {
+              const char = CHARS[Math.floor(Math.random() * CHARS.length)]
+              ctx.fillStyle = `rgba(100, 220, 160, ${0.2 + Math.random() * 0.35})`
+              ctx.fillText(char, x, y)
+            }
+          }
+        }
+      }
+
+      draw()
+      interval = setInterval(draw, 450)
+      window.addEventListener('resize', draw)
+    }
+
+    img.src = url
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('resize', () => {})
+      URL.revokeObjectURL(url)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-70"
+    />
+  )
+}
