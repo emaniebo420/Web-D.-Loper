@@ -1,19 +1,66 @@
+import { useEffect, useRef } from 'react'
+
+const CHARS = '01アイウエオカキクケコサシスセソ{}[]<>/=+-;'
+
 export default function SkullOverlay() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+
+    function draw() {
+      const size = Math.min(window.innerWidth, window.innerHeight) * 0.5
+      canvas.width = size
+      canvas.height = size
+
+      // Step 1: draw a skull+crossbones emoji offscreen as a shape mask
+      const mask = document.createElement('canvas')
+      mask.width = size
+      mask.height = size
+      const mctx = mask.getContext('2d')
+      mctx.clearRect(0, 0, size, size)
+      mctx.font = `${size * 0.8}px serif`
+      mctx.textAlign = 'center'
+      mctx.textBaseline = 'middle'
+      mctx.fillText('☠️', size / 2, size / 2)
+
+      const imageData = mctx.getImageData(0, 0, size, size)
+
+      // Step 2: scatter matrix characters only where the mask has visible pixels
+      ctx.clearRect(0, 0, size, size)
+      ctx.font = `${size * 0.028}px monospace`
+
+      const step = size * 0.024
+      for (let y = 0; y < size; y += step) {
+        for (let x = 0; x < size; x += step) {
+          const idx = (Math.floor(y) * size + Math.floor(x)) * 4
+          const alpha = imageData.data[idx + 3]
+          if (alpha > 80) {
+            const char = CHARS[Math.floor(Math.random() * CHARS.length)]
+            const opacity = 0.15 + (alpha / 255) * 0.4
+            ctx.fillStyle = `rgba(100, 220, 160, ${opacity})`
+            ctx.fillText(char, x, y)
+          }
+        }
+      }
+    }
+
+    draw()
+    const interval = setInterval(draw, 400) // gentle flicker/regeneration
+    window.addEventListener('resize', draw)
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('resize', draw)
+    }
+  }, [])
+
   return (
-    <svg
-      viewBox="0 0 200 200"
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
-      className="fixed inset-0 z-0 m-auto opacity-[0.05] pointer-events-none"
-      style={{ width: '420px', height: '420px', maxWidth: '70vw', maxHeight: '70vh' }}
-    >
-      <g fill="none" stroke="#7dd3b0" strokeWidth="2">
-        <path d="M100 20c-33 0-58 25-58 58 0 20 10 35 22 46v20c0 6 5 11 11 11h50c6 0 11-5 11-11v-20c12-11 22-26 22-46 0-33-25-58-58-58z" />
-        <circle cx="78" cy="82" r="12" fill="#7dd3b0" stroke="none" />
-        <circle cx="122" cy="82" r="12" fill="#7dd3b0" stroke="none" />
-        <path d="M100 96l-6 16h12z" fill="#7dd3b0" stroke="none" />
-        <path d="M80 128h40" />
-        <path d="M84 128v10M92 128v10M100 128v10M108 128v10M116 128v10" />
-      </g>
-    </svg>
+      className="fixed inset-0 z-0 m-auto pointer-events-none opacity-60"
+    />
   )
 }
