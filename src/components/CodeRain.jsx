@@ -18,15 +18,9 @@ export default function CodeRain() {
       const newWidth = window.innerWidth
       const newHeight = window.innerHeight
 
-      // Always match the canvas to the current viewport size — this prevents
-      // the rain from getting stuck at an old, shorter height and cutting off
-      // partway down the page.
       canvas.width = newWidth
       canvas.height = newHeight
 
-      // Only rebuild the falling columns when width actually changes — mobile
-      // address-bar show/hide only changes height, and rebuilding columns on
-      // that would restart the animation from the top.
       if (newWidth !== lastWidth) {
         const columnCount = Math.floor(newWidth / fontSize)
         const oldColumns = columns
@@ -39,7 +33,7 @@ export default function CodeRain() {
     window.addEventListener('resize', resize)
 
     let lastTime = 0
-    const frameDelay = 90 // ms between steps — slow, calm drift
+    const frameDelay = 90
 
     function draw(time) {
       animationId = requestAnimationFrame(draw)
@@ -49,7 +43,7 @@ export default function CodeRain() {
       ctx.fillStyle = 'rgba(11, 13, 14, 0.15)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      ctx.fillStyle = 'rgba(100, 220, 160, 0.35)' // accent green, slightly more vivid
+      ctx.fillStyle = 'rgba(100, 220, 160, 0.35)'
       ctx.font = `${fontSize}px monospace`
 
       for (let i = 0; i < columns.length; i++) {
