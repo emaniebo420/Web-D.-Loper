@@ -8,6 +8,7 @@ import Skills from './components/Skills.jsx'
 import SecurityTrack from './components/SecurityTrack.jsx'
 import Contact from './components/Contact.jsx'
 
+console.log('%c⚓ Set sail! ', 'color: #7dd3b0; font-weight: bold; font-size: 14px;')
 const sectionIds = ['about', 'work', 'skills', 'security', 'contact']
 
 export default function App() {
@@ -64,7 +65,7 @@ export default function App() {
         </main>
 
         <footer className="px-8 py-8 text-center text-sm text-textDim border-t border-lineSoft">
-          © {new Date().getFullYear()} {profile.name} — built and deployed from Earth
+          © {new Date().getFullYear()} {profile.name} — built and deployed from the Grand Line
         </footer>
       </div>
     </div>
