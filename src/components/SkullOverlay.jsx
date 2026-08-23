@@ -30,7 +30,7 @@ export default function SkullOverlay() {
 
     img.onload = () => {
       function draw() {
-        const size = Math.min(window.innerWidth, window.innerHeight) * 0.7
+        const size = Math.min(window.innerWidth, window.innerHeight) * 0.2
         canvas.width = size
         canvas.height = size
         canvas.style.width = `${size}px`
@@ -82,7 +82,7 @@ export default function SkullOverlay() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-80"
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-30"
     />
   )
 }
