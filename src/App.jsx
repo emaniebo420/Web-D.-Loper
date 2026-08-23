@@ -49,6 +49,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-bg relative">
       <CodeRain />
+      <SkullOverlay />
       <div className="relative z-10">
         <a href="#main" className="skip-link">
           Skip to content
