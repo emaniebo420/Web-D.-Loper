@@ -27,9 +27,10 @@ export default function SkullOverlay() {
     const svgBlob = new Blob([SKULL_SVG], { type: 'image/svg+xml' })
     const url = URL.createObjectURL(svgBlob)
     let interval
-      img.onload = () => {
+
+    img.onload = () => {
       function draw() {
-        const size = Math.min(window.innerWidth, window.innerHeight) * 0.5
+        const size = Math.min(window.innerWidth, window.innerHeight) * 0.7
         canvas.width = size
         canvas.height = size
         canvas.style.width = `${size}px`
@@ -43,9 +44,11 @@ export default function SkullOverlay() {
         const imageData = mctx.getImageData(0, 0, size, size)
 
         ctx.clearRect(0, 0, size, size)
-        ctx.font = `${size * 0.028}px monospace`
+        ctx.font = `${size * 0.022}px monospace`
+        ctx.shadowColor = 'rgba(90, 255, 160, 0.8)'
+        ctx.shadowBlur = 6
 
-        const step = size * 0.022
+        const step = size * 0.012 // denser grid than before
         for (let y = 0; y < size; y += step) {
           for (let x = 0; x < size; x += step) {
             const px = Math.floor(x)
@@ -54,7 +57,7 @@ export default function SkullOverlay() {
             const alpha = imageData.data[idx + 3]
             if (alpha > 100) {
               const char = CHARS[Math.floor(Math.random() * CHARS.length)]
-              ctx.fillStyle = `rgba(100, 220, 160, ${0.2 + Math.random() * 0.35})`
+              ctx.fillStyle = `rgba(120, 255, 170, ${0.5 + Math.random() * 0.5})`
               ctx.fillText(char, x, y)
             }
           }
@@ -62,7 +65,7 @@ export default function SkullOverlay() {
       }
 
       draw()
-      interval = setInterval(draw, 450)
+      interval = setInterval(draw, 350)
       window.addEventListener('resize', draw)
     }
 
@@ -79,7 +82,7 @@ export default function SkullOverlay() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-70"
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-80"
     />
   )
 }
