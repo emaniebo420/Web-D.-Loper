@@ -4,7 +4,7 @@ export const profile = {
   name: 'Eussef Maniebo',
   tabName: 'eussef-maniebo',
   role: 'Web Developer / Network & Cybersecurity',
-  location: 'Tagaytay City, PH',
+  location: 'Earth',
   status: 'Open for freelance work',
   track: 'eJPT → OSCP',
   headline: (
