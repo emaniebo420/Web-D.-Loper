@@ -75,7 +75,7 @@ export const certTrack = [
 ]
 
 export const contact = [
-  { label: 'EMAIL', value: 'youremail@example.com', href: 'mailto:youremail@example.com' },
+  { label: 'EMAIL', value: 'youremail@example.com', href: 'eussef.maniebo@gmail.com' },
   { label: 'BUSINESS', value: 'Web D. Loper', href: null },
   { label: 'GITHUB', value: 'github.com/emaniebo420', href: 'https://github.com/emaniebo420' },
 ]
