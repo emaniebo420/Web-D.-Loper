@@ -2,8 +2,9 @@ import React from 'react'
 
 export const profile = {
   name: 'Eussef Maniebo',
+  tabName: 'eussef-maniebo',
   role: 'Web Developer / Network & Cybersecurity',
-  location: 'Earth',
+  location: 'Tagaytay City, PH',
   status: 'Open for freelance work',
   track: 'eJPT → OSCP',
   headline: (
@@ -13,6 +14,13 @@ export const profile = {
 }
 
 export const projects = [
+  {
+    name: 'OutageRadar',
+    url: 'https://outageradar-dashboard.vercel.app',
+    status: 'live',
+    desc: 'Live status dashboard for third-party vendor dependencies — polls services like Cloudflare, GitHub, Slack, Stripe, and Vercel every 5 minutes and surfaces degraded/down services at a glance.',
+    stack: ['React', 'Vite', 'Tailwind'],
+  },
   {
     name: 'PediChart',
     url: 'https://pedichart.vercel.app',
@@ -67,7 +75,7 @@ export const certTrack = [
 ]
 
 export const contact = [
-  { label: 'EMAIL', value: 'eussef.maniebo@gmail.com', href: 'mailto:eussef.maniebo@gmail.com' },
+  { label: 'EMAIL', value: 'youremail@example.com', href: 'mailto:youremail@example.com' },
   { label: 'BUSINESS', value: 'Web D. Loper', href: null },
   { label: 'GITHUB', value: 'github.com/emaniebo420', href: 'https://github.com/emaniebo420' },
 ]
