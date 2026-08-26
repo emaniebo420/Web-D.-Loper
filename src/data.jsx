@@ -19,7 +19,7 @@ export const projects = [
     url: 'https://emaniebo420.github.io/cybersecurity-checkup/',
     status: 'live',
     desc: 'A web app that scores personal cybersecurity habits across passwords, MFA, and phishing awareness, with live password and email breach checks powered by free public APIs.',
-    stack: ['JS', 'HTML', 'CSS'],
+    stack: ['HTML/CSS/JS', 'GitHub Pages'],
   },
   {
     name: 'OutageRadar',
