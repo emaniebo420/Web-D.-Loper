@@ -51,8 +51,8 @@ export const projects = [
   },
   {
     name: 'TruSolar',
-    url: null,
-    status: 'live',
+    url: 'https://emaniebo420.github.io/tru-solar/',
+    status: 'dev/live',
     desc: 'Marketing site for a solar installer with a multi-step calculator that estimates system size and savings from household usage.',
     stack: ['HTML/CSS/JS', 'GitHub Pages'],
   },
